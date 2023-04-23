@@ -1,4 +1,4 @@
-from InstantPay.data.model.account import Account
+from data.model.account import Account
 
 
 class AccountRepository:
@@ -12,4 +12,7 @@ class AccountRepository:
         raise NotImplementedError
 
     def find_by_account_number(self, account_number) -> Account:
+        pass
+
+    def find_phone_number(self, phone_number) -> str:
         pass

@@ -1,7 +1,7 @@
 from unittest import TestCase
 
-from InstantPay.data.model.transaction_history import Transaction
-from InstantPay.data.repository.transaction_history_impl import Transaction_History_Impl
+from data.model.transaction_history import Transaction
+from data.repository.transaction_history_impl import Transaction_History_Impl
 
 
 class TestTransaction_History_Impl(TestCase):
@@ -21,3 +21,9 @@ class TestTransaction_History_Impl(TestCase):
         transaction_history.save(transaction)
         transaction_history.save(transaction_two)
         self.assertEqual(2, transaction_history.count())
+
+    def test_debit_transaction_can_be_viewed(self):
+        pass
+
+    def test_credit_transaction_can_be_viewed(self):
+        pass

@@ -1,5 +1,5 @@
-from InstantPay.data.model.transaction_history import Transaction
-from InstantPay.data.repository.transaction_history_repository import Transaction_History
+from data.model.transaction_history import Transaction
+from data.repository.transaction_history_repository import Transaction_History
 
 
 class Transaction_History_Impl(Transaction_History):

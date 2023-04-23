@@ -1,4 +1,4 @@
-from InstantPay.data.model.transaction_history import Transaction
+from data.model.transaction_history import Transaction
 
 
 class Transaction_History:

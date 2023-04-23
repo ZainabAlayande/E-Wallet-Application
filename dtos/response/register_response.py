@@ -1,8 +1,12 @@
+import decimal
+
+
 class RegisterResponse:
     def __init__(self):
-        self.__balance = 0.00
-        self.__account_number = None
-        self.__full_name = None
+        self.__balance: decimal = 0.00
+        self.__account_number: str = ""
+        self.__full_name: str = ""
+        self.__gmail: str = ""
 
     def get_account_number(self):
         return self.__account_number
@@ -16,12 +20,19 @@ class RegisterResponse:
     def set_full_name(self, full_name):
         self.__full_name = full_name
 
+    def get_gmail(self):
+        return self.__gmail
+
+    def set_gmail(self, gmail):
+        self.__gmail = gmail
+
     def set_balance(self, param):
         self.__balance = param
 
     def __str__(self):
         return f"""
-         Account Number: {self.__account_number},
-         Full Name: {self.__full_name},
+         Account Number: {self.__account_number}
+         Gmail: {self.__gmail}
+         Full Name: {self.__full_name}
          Balance: {self.__balance}"""
 

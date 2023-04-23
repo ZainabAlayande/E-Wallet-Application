@@ -1,7 +1,7 @@
 from unittest import TestCase
 
-from InstantPay.data.model.account import Account
-from InstantPay.data.repository.account_repository_impl import AccountRepositoryImpl
+from data.model.account import Account
+from data.repository.account_repository_impl import AccountRepositoryImpl
 
 
 class TestAccountRepositoryImpl(TestCase):
@@ -11,6 +11,7 @@ class TestAccountRepositoryImpl(TestCase):
         account = Account()
         account.set_phone_number("09152652431")
         account_repository.add(account)
+        print(account.get_account_number())
         self.assertEqual(1, account_repository.count())
 
     def test_two_account_can_be_saved(self):
@@ -49,3 +50,4 @@ class TestAccountRepositoryImpl(TestCase):
         bless_account.set_phone_number("09152652431")
         account_repository.add(bless_account)
         self.assertEqual(bless_account, account_repository.find_by_account_number("9152652431"))
+

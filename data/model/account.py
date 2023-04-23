@@ -1,14 +1,18 @@
+import decimal
+
+
 class Account:
 
     def __init__(self):
         self.__id: int = 0
-        self.__balance: float = 0.0
+        self.__balance: decimal = 0.0
         self.__account_number: str = ""
         self.__first_name: str = ""
         self.__last_name: str = ""
         self.__phone_number: str = ""
         self.__pin: str = ""
         self.__password: str = ""
+        self.__gmail: str = ""
 
     def get_first_name(self) -> str:
         return self.__first_name
@@ -37,7 +41,7 @@ class Account:
     def get_account_number(self) -> str:
         return self.__account_number
 
-    def set_account_number(self, number):
+    def set_account_number(self, number: str):
         self.__account_number = number
 
     def set_password(self, password: str):
@@ -49,14 +53,14 @@ class Account:
     def set_id(self, identity_number: int):
         self.__id = identity_number
 
-    def get_id(self):
+    def get_id(self) -> int:
         return self.__id
 
     def get_balance(self):
         return self.__balance
 
-    def deposit(self, amount):
-        self.__balance += amount
+    def set_gmail(self, gmail: str):
+        self.__gmail = gmail
 
-    def withdraw(self, amount):
-        self.__balance -= amount
+    def get_gmail(self) -> str:
+        return self.__gmail
