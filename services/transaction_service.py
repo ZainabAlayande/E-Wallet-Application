@@ -14,3 +14,6 @@ class TransactionService:
 
     def view_all_credit_transaction(self):
         raise NotImplementedError
+
+    def print_bank_statement(self):
+        raise NotImplementedError

@@ -7,7 +7,7 @@ class LoginResponse:
         self.__full_name: str = ""
         self.__email: str = ""
         self.__phone_number: str = ""
-        self.__account_balance: decimal = 0.00
+        self.__account_number: str = ""
 
     def set_full_name(self, full_name: str):
         self.__full_name = full_name
@@ -27,8 +27,14 @@ class LoginResponse:
     def get_phone_number(self) -> str:
         return self.__phone_number
 
-    def set_account_balance(self, balance: decimal):
-        self.__account_balance = balance
+    def set_account_number(self, account_number: str):
+        self.__account_number = account_number
 
-    def get_account_balance(self) -> decimal:
-        return self.__account_balance
+    def get_account_balance(self) -> str:
+        return self.__account_number
+
+    def __str__(self):
+        return f"""
+        Account Number: {self.__account_number}
+        Account Name: {self.__full_name}
+        """

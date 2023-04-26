@@ -1,7 +1,9 @@
 from data.model.account import Account
 from dtos.request.deposit_request import DepositRequest
+from dtos.request.login_request import LoginRequest
 from dtos.request.register_request import CreateAccountRequest
 from dtos.response.deposit_response import DepositResponse
+from dtos.response.login_response import LoginResponse
 from dtos.response.register_response import RegisterResponse
 
 
@@ -39,3 +41,9 @@ class Mapper:
         response.set_receivers_name(deposit_request.get_receivers_name())
         response.set_amount(deposit_request.get_amount())
         return response
+
+    @staticmethod
+    def map(login_request: LoginRequest):
+        login_response = LoginResponse()
+        login_response.set_account_number(login_request.get_account_number())
+        return login_response

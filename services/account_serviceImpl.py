@@ -23,9 +23,6 @@ class AccountServiceImpl(AccountService):
     account_repository = AccountRepositoryImpl()
     account = Account()
 
-    def __init__(self):
-        pass
-
     def register_account(self, request: CreateAccountRequest) -> RegisterResponse:
         if self.phone_number_exist(request.get_phone_number()):
             raise PhoneNumberExist(request.get_phone_number() + " " + "already exist")
@@ -41,52 +38,54 @@ class AccountServiceImpl(AccountService):
             return True
         return False
 
-    @staticmethod
-    def validate_password(password):
-        pass
-        # password = account_repository.find_password()
-
     def login(self, login_request: LoginRequest) -> LoginResponse:
-        if self.account_not_found(login_request.get_account_number()):
+        if not self.account_repository.find_by_account_number(login_request.get_account_number()):
             raise AccountNotFound("Account not found..")
 
-        login_response = LoginResponse()
+        login_response = Mapper.map(login_request)
         return login_response
 
     def deposit_into(self, deposit_request: DepositRequest) -> str:
-        if not self.account_not_found(deposit_request.get_receivers_account_number()):
+        account = self.account_repository.find_by_account_number(deposit_request
+                                                                 .get_receivers_account_number())
+        if not account:
+            raise AccountNotFound("Account not found.")
+
+        self.validate_negative_amount(deposit_request.get_amount())
+        account.deposit(deposit_request.get_amount())
+        self.account_repository.add(account)
+        print()
+        return "Successfully deposited."
+
+    def withdraw_from(self, withdraw_request: WithdrawRequest) -> WithdrawResponse:
+        account = self.account_repository.find_by_account_number(withdraw_request
+                                                                 .get_account_number())
+        if not account:
             raise AccountNotFound("Account not found..")
 
-        account_number = self.account_repository.find_by_account_number(deposit_request.get_receivers_account_number())
-        self.account.get_balance()
-        self.__balance = self.__balance + deposit_request.get_amount()
+        self.validate_negative_amount(withdraw_request.get_amount())
+        account.withdraw(withdraw_request.get_amount())
+        self.account_repository.add(account)
+        withdraw_response = WithdrawResponse()
+        return withdraw_response
 
-
-        # if deposit_request.get_amount() < 0:
-        #     self.__balance = self.__balance
-        #     return
-
-        # deposit_response: DepositResponse = Mapper.map_deposit_request_to_response(deposit_request)
-        return "successfully sent"
+    @staticmethod
+    def validate_negative_amount(amount: decimal):
+        if amount < 0:
+            return "Negative amount not valid."
 
     def check_balance(self, account_number: str) -> decimal:
-        self.account_repository.find_by_account_number(account_number)
-        return self.account.get_balance()
+        account = self.account_repository.find_by_account_number(account_number)
+        if not account:
+            raise AccountNotFound("Account not found..")
+
+        return account.get_balance()
 
     def account_not_found(self, account):
         account_number = self.account_repository.find_by_account_number(account)
         if account_number is not None:
             return True
         return False
-
-    def withdraw(self, withdraw_request: WithdrawRequest) -> WithdrawResponse:
-        if self.account_not_found(withdraw_request.get_account_number()):
-            raise AccountNotFound("Account not found..")
-
-        self.__balance -= withdraw_request.get_amount()
-
-        withdraw_response = WithdrawResponse()
-        return withdraw_response
 
     def transfer(self, transfer_request: TransferRequest) -> TransferResponse:
         if self.account_not_found(transfer_request.get_receiver_account_number() and
@@ -96,7 +95,7 @@ class AccountServiceImpl(AccountService):
         withdraw_request = WithdrawRequest()
         withdraw_request.set_account_number(transfer_request.get_sender_account_number())
         withdraw_request.set_amount(transfer_request.get_amount())
-        self.withdraw(withdraw_request)
+        self.withdraw_from(withdraw_request)
 
         deposit_request = DepositRequest()
         deposit_request.set_receivers_account_number(transfer_request.get_receiver_account_number())

@@ -1,5 +1,9 @@
 import decimal
 
+from data.model.mail_sender import MailSender
+
+mail_sender = MailSender()
+
 
 class Account:
 
@@ -64,3 +68,9 @@ class Account:
 
     def get_gmail(self) -> str:
         return self.__gmail
+
+    def deposit(self, amount):
+        self.__balance += amount
+
+    def withdraw(self, amount):
+        self.__balance -= amount

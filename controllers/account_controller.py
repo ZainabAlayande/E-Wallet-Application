@@ -9,35 +9,37 @@ account_service_impl = AccountServiceImpl()
 
 class AccountController:
 
-    def __init__(self):
-        pass
-
-    def register(self, register_request: CreateAccountRequest) -> object:
+    @staticmethod
+    def register(register_request: CreateAccountRequest) -> object:
         try:
             return account_service_impl.register_account(register_request)
-        except ValueError:
-            return
+        except ValueError as exception:
+            return str(exception)
 
-    def login(self, login_request: LoginRequest) -> object:
+    @staticmethod
+    def login(login_request: LoginRequest) -> object:
         try:
             return account_service_impl.login(login_request)
-        except ValueError:
-            return
+        except ValueError as exception:
+            return str(exception)
 
-    def deposit(self, deposit_request: DepositRequest) -> object:
+    @staticmethod
+    def deposit(deposit_request: DepositRequest) -> object:
         try:
             return account_service_impl.deposit_into(deposit_request)
-        except ValueError:
-            return
+        except ValueError as exception:
+            return str(exception)
 
-    def check_balance(self, account_number: str) -> object:
+    @staticmethod
+    def check_balance(account_number: str) -> object:
         try:
             return account_service_impl.check_balance(account_number)
-        except ValueError:
-            return
+        except ValueError as exception:
+            return str(exception)
 
-    def withdraw(self, withdraw_request: WithdrawRequest) -> object:
+    @staticmethod
+    def withdraw(withdraw_request: WithdrawRequest) -> object:
         try:
-            return account_service_impl.withdraw(withdraw_request)
-        except ValueError:
-            return
+            return account_service_impl.withdraw_from(withdraw_request)
+        except ValueError as exception:
+            return str(exception)

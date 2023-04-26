@@ -23,3 +23,16 @@ class Transaction:
 
     def get_transaction_type(self, identity_number) -> str:
         return self.__transaction_type
+
+    def set_senders_name(self, senders_name: str):
+        self.__sender_name = senders_name
+
+    def get_senders_name(self) -> str:
+        return self.__sender_name
+
+    def __str__(self):
+        return f"""   
+            Id: {self.__id}
+            Amount: {self.__amount}
+            Transaction Type: {self.__transaction_type}
+            Sender's Name: {self.__sender_name}"""

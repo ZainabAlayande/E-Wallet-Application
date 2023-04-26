@@ -19,13 +19,13 @@ class AccountService:
     def login(self, login_request: LoginRequest) -> LoginResponse:
         raise NotImplementedError
 
-    def deposit_into(self, deposit_request: DepositRequest) ->str:
+    def deposit_into(self, deposit_request: DepositRequest) -> str:
         raise NotImplementedError
 
     def check_balance(self, account_number: str) -> decimal:
         raise NotImplementedError
 
-    def withdraw(self, withdraw_request: WithdrawRequest) -> WithdrawResponse:
+    def withdraw_from(self, withdraw_request: WithdrawRequest) -> WithdrawResponse:
         raise NotImplementedError
 
     def transfer(self, transfer_request: TransferRequest) -> TransferResponse:
