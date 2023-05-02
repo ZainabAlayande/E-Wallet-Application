@@ -5,7 +5,6 @@ from data.repository.account_repository import AccountRepository
 
 
 class AccountRepositoryImpl(AccountRepository):
-
     accounts: list[Account] = []
     counter = 0
 
@@ -46,3 +45,8 @@ class AccountRepositoryImpl(AccountRepository):
                 return account
         return None
 
+    def find_password(self, password):
+        for account in self.accounts:
+            if account.get_password() == password:
+                return account
+        return None

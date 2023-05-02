@@ -32,7 +32,7 @@ class RegisterResponse:
     def __str__(self):
         return f"""
          Account Number: {self.__account_number}
-         Gmail: {self.__gmail}
+         Email: {self.__gmail}
          Full Name: {self.__full_name}
          Balance: {self.__balance}"""
 

@@ -1,6 +1,6 @@
 import decimal
 
-from data.model.mail_sender import MailSender
+from utils.mail_sender import MailSender
 
 mail_sender = MailSender()
 

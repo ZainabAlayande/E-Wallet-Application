@@ -6,6 +6,7 @@ class LoginRequest:
     def __init__(self):
         self.__account_number: decimal = 0.00
         self.__password: str = ""
+        self.__full_name: str = ""
 
     def set_account_number(self, account_number: decimal):
         self.__account_number = account_number
@@ -18,3 +19,9 @@ class LoginRequest:
 
     def get_password(self) -> str:
         return self.__password
+
+    def set_full_name(self, fullname: str):
+        self.__full_name = fullname
+
+    def get_full_name(self) -> str:
+        return self.__full_name
