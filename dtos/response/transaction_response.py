@@ -38,7 +38,7 @@ class TransactionResponse:
 
     def __str__(self):
         return f"""   
-                    Transaction Type: {self.__transaction_type}
+                    Transaction Type: {self.__transaction_type.name}
                     Amount: {self.__amount}
                     Account Name: {self.__account_name}
                     Date and Time: {self.__transaction_date_time}"""

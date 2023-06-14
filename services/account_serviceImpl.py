@@ -99,16 +99,19 @@ class AccountServiceImpl(AccountService):
         print()
 
     def deposit_into(self, deposit_request: DepositRequest) -> str:
-        transaction_service = TransactionRepositoryImpl()
-        transaction_service.save()
+        transaction_service = TransactionServiceImpl()
+
         account = self.account_repository.find_by_account_number(deposit_request
                                                                  .get_receivers_account_number())
+        account_id = account.get_id()
+
         if account:
             deposit_request.set_receivers_account_name(account.get_first_name() + " " + account.get_last_name())
         if not account:
             raise AccountNotFound("Account not found.")
         self.validate_negative_amount(deposit_request.get_amount())
         account.deposit(deposit_request.get_amount())
+        transaction_service.build_customer_transaction(deposit_request, account_id)
         self.account_repository.add(account)
         self.new_line()
         return self.success_message()

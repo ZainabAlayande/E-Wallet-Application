@@ -8,6 +8,7 @@ class Transaction:
 
     def __init__(self):
         self.__id: int = 0
+        self.__account_id: int = 0
         self.__amount: decimal = 0.00
         self.__transaction_type: TransactionType = TransactionType.DEBIT
         self.__account_name: str = ""
@@ -18,6 +19,12 @@ class Transaction:
 
     def get_id(self) -> int:
         return self.__id
+
+    def set_account_id(self, identity_number: int):
+        self.__account_id = identity_number
+
+    def get_account_id(self) -> int:
+        return self.__account_id
 
     def set_amount(self, amount: float):
         self.__amount = amount

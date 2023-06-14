@@ -157,15 +157,6 @@ class main:
     def success_message(self) -> str:
         return "Transfer Successful"
 
-    # def withdraw(self):
-    #     withdraw_request = WithdrawRequest()
-    #     withdraw_request.set_account_number(input("Enter your account number: "))
-    #     withdraw_request.set_amount(float(input("Enter amount: ")))
-    #     result = account_controller.withdraw(withdraw_request)
-    #
-    #     print(result.__str__())
-    #     self.e_wallet_on_your_account()
-
     def transfer_money(self):
         transfer_request = TransferRequest()
         transfer_request.set_sender_account_number(self.__current_user_logged_in)

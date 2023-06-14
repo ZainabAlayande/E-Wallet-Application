@@ -1,5 +1,7 @@
 import decimal
 
+from data.model.transaction_type import TransactionType
+
 
 class DepositRequest:
 
@@ -11,6 +13,7 @@ class DepositRequest:
         # self.__account_name: str = ""
         self.__amount: decimal = 0.00
         self.__purpose: str = ""
+        self.__transaction_type: TransactionType = TransactionType.DEBIT
 
     def set_receivers_account_name(self, account_name: str):
         self.__receivers_account_name = account_name
@@ -47,3 +50,9 @@ class DepositRequest:
 
     def set_purpose(self, purpose: str):
         self.__purpose = purpose
+
+    def get_transaction_type(self) -> TransactionType:
+        return self.__transaction_type
+
+    def set_transaction_type(self, transaction_type: TransactionType):
+        self.__transaction_type = transaction_type

@@ -1,5 +1,6 @@
 import decimal
 
+from data.model.transaction import Transaction
 from utils.mail_sender import MailSender
 
 mail_sender = MailSender()
@@ -17,6 +18,7 @@ class Account:
         self.__pin: str = ""
         self.__password: str = ""
         self.__gmail: str = ""
+        self.__transaction: list[Transaction] = []
 
     def get_first_name(self) -> str:
         return self.__first_name
@@ -62,6 +64,12 @@ class Account:
 
     def get_balance(self):
         return self.__balance
+
+    def set_transaction(self, transaction: list[Transaction]):
+        self.__transaction = transaction
+
+    def get_transaction(self):
+        return self.__transaction
 
     def set_gmail(self, gmail: str):
         self.__gmail = gmail

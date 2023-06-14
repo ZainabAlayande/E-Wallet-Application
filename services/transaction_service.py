@@ -7,7 +7,7 @@ class TransactionService:
     def find_all_transaction(self) -> TransactionResponse:
         raise NotImplementedError
 
-    def find_transaction_by_id(self, identity_number: int) -> TransactionResponse:
+    def find_transaction_by_account_id(self, identity_number: int) -> TransactionResponse:
         raise NotImplementedError
 
     def view_all_debit_transaction(self):
