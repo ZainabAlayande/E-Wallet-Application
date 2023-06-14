@@ -2,6 +2,8 @@ import decimal
 import re
 
 from data.model.account import Account
+from data.repository.transaction_repository_impl import TransactionRepositoryImpl
+from services.transaction_service_impl import TransactionServiceImpl
 from utils.invalid_email import InvalidEmail
 from utils.invalid_phone_number import InvalidPhoneNumber
 from utils.mail_sender import MailSender
@@ -97,6 +99,8 @@ class AccountServiceImpl(AccountService):
         print()
 
     def deposit_into(self, deposit_request: DepositRequest) -> str:
+        transaction_service = TransactionRepositoryImpl()
+        transaction_service.save()
         account = self.account_repository.find_by_account_number(deposit_request
                                                                  .get_receivers_account_number())
         if account:
@@ -143,39 +147,29 @@ class AccountServiceImpl(AccountService):
         return False
 
     def transfer(self, transfer_request: TransferRequest) -> str:
-        print()
-        print("hi one")
         receivers_account = self.account_repository.find_by_account_number \
             (transfer_request.get_receiver_account_number())
-        print("receivers account from method -> ", receivers_account.get_account_number())
 
         if not receivers_account:
-            print("hi two")
             raise AccountNotFound("Account Not Found")
-        print("hi two two")
 
         if receivers_account:
-            print("hi three")
             transfer_request.set_receiver_account_name(receivers_account.get_first_name()
                                                        + " " + receivers_account.get_last_name())
 
         self.validate_negative_amount(transfer_request.get_amount())
-        print("hi four")
         self.validate_send_more_than_balance(transfer_request.get_sender_account_number(),
                                              transfer_request.get_amount())
 
         withdraw_request = WithdrawRequest()
         withdraw_request.set_account_number(transfer_request.get_sender_account_number())
         withdraw_request.set_amount(transfer_request.get_amount())
-        print("hi five")
         self.withdraw_from(withdraw_request)
 
         deposit_request = DepositRequest()
         deposit_request.set_receivers_account_number(transfer_request.get_receiver_account_number())
         deposit_request.set_amount(transfer_request.get_amount())
-        print("hi six")
         self.deposit_into(deposit_request)
-
         return self.success_message()
 
     def valid_login_password(self, password):

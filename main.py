@@ -1,7 +1,5 @@
 import sys
 
-from unicodedata import decimal
-
 from controllers.account_controller import AccountController
 from controllers.complain_controller import ComplainController
 from dtos.request.complain_request import ComplainRequest

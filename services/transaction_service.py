@@ -1,12 +1,13 @@
-from data.model.transaction_history import Transaction
+from data.model.transaction import Transaction
+from dtos.response.transaction_response import TransactionResponse
 
 
 class TransactionService:
 
-    def find_all_transaction(self) -> Transaction:
+    def find_all_transaction(self) -> TransactionResponse:
         raise NotImplementedError
 
-    def find_transaction_by_id(self, identity_number: int) -> Transaction:
+    def find_transaction_by_id(self, identity_number: int) -> TransactionResponse:
         raise NotImplementedError
 
     def view_all_debit_transaction(self):

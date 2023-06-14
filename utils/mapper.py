@@ -1,5 +1,6 @@
 from data.model.account import Account
 from data.model.complain import Complain
+from data.model.transaction import Transaction
 from dtos.request.complain_request import ComplainRequest
 from dtos.request.deposit_request import DepositRequest
 from dtos.request.login_request import LoginRequest
@@ -8,6 +9,7 @@ from dtos.response.complain_response import ComplainResponse
 from dtos.response.deposit_response import DepositResponse
 from dtos.response.login_response import LoginResponse
 from dtos.response.register_response import RegisterResponse
+from dtos.response.transaction_response import TransactionResponse
 
 
 class Mapper:
@@ -64,4 +66,13 @@ class Mapper:
         complain_response.set_title_of_complain(complain.get_title_of_complain())
         complain_response.set_user_email_address(complain.get_user_email_address())
         return complain_response
+
+    @staticmethod
+    def map_transaction_to_transaction_response(found_transaction: Transaction):
+        transaction_response = TransactionResponse()
+        transaction_response.set_amount(found_transaction.get_amount())
+        transaction_response.set_transfer_type(found_transaction.get_transaction_type())
+        transaction_response.set_account_name(found_transaction.get_account_name())
+        transaction_response.set_date_time(found_transaction.get_date_time())
+        return transaction_response
 
