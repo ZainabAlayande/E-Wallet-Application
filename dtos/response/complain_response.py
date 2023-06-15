@@ -1,5 +1,7 @@
 from xmlrpc.client import DateTime
 
+from data.model.complain_type import ComplainType
+
 
 class ComplainResponse:
 
@@ -8,7 +10,7 @@ class ComplainResponse:
         self.__user_full_name: str = ""
         self.__user_email_address: str = ""
         self.__title_of_complain: str = ""
-        self.__status_of_user_complaint = "Unassigned"
+        self.__status_of_user_complaint = ComplainType.UNASSIGNED.name
         self.__logged_date_of_complain = DateTime()
 
     def set_id(self, identity_number: str):

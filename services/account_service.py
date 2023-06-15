@@ -8,7 +8,6 @@ from dtos.request.withdraw_request import WithdrawRequest
 from dtos.response.deposit_response import DepositResponse
 from dtos.response.login_response import LoginResponse
 from dtos.response.register_response import RegisterResponse
-from dtos.response.transfer_response import TransferResponse
 from dtos.response.withdraw_response import WithdrawResponse
 
 
@@ -28,5 +27,5 @@ class AccountService:
     def withdraw_from(self, withdraw_request: WithdrawRequest) -> WithdrawResponse:
         raise NotImplementedError
 
-    def transfer(self, transfer_request: TransferRequest) -> TransferResponse:
+    def transfer(self, transfer_request: TransferRequest):
         raise NotImplementedError

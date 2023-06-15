@@ -25,14 +25,14 @@ class TestAccountServiceImpl(TestCase):
         request.set_password("pass")
         request.set_account_number(request.get_account_number())
 
-        # mail_sender.email_alert("Account Registration", """
-        # Congratulations!
-        # You have successfully created
-        # an account with instant pay e_wallet
-        # """, request.get_gmail())
+        mail_sender.email_alert("Account Registration", """
+        Congratulations!
+        You have successfully created
+        an account with instant pay e_wallet
+        """, request.get_gmail())
         expected = """
          Account Number: 8023677114
-         Gmail: sunday-emmanuel@gmail.com
+         Email: sunday-emmanuel@gmail.com
          Full Name: sunday emmanuel
          Balance: 0.0"""
         self.assertEqual(expected, account_service.register_account(request).__str__())
@@ -93,13 +93,12 @@ class TestAccountServiceImpl(TestCase):
         request_two.set_last_name("Alice")
         request_two.set_gmail("zainab@gmail.com")
         account_service.register_account(request_two)
-        print("Account num: ", request_two.get_account_number())
         self.assertEqual(0.0, account_service.check_balance("7023677114"))
 
         transfer_request = TransferRequest()
         transfer_request.set_sender_account_number("9153752431")
         transfer_request.set_sender_account_name("Sunday Emma")
-        transfer_request.set_receiver_account_number("8023677114")
+        transfer_request.set_receiver_account_number("7023677114")
         transfer_request.set_receiver_account_name("Zainab Alice")
         transfer_request.set_amount(3000)
         transfer_request.set_pin("1234")

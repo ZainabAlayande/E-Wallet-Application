@@ -24,7 +24,7 @@ class TestComplainServiceImpl(TestCase):
             Complaint_Id: 1
             Complaint_Full_Name: Zainab Shoper
             Title_of_Complaint: Unauthorized Debit
-            Status: Unassigned
+            Status: UNASSIGNED
             Date/Time: {current_date_and_time}"""
         self.assertEqual(expected, self.complain_service.log_complain(complain_request).__str__())
 

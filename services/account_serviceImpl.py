@@ -31,7 +31,7 @@ class AccountServiceImpl(AccountService):
     account = Account()
 
     def register_account(self, request: CreateAccountRequest) -> RegisterResponse:
-        self.validate_phone_number(request.get_phone_number())
+        self.validate_phone_number(request.get_phone_number())  # 1111111111111111111
         self.validate_password(request.get_password())
         self.validate_email_address(request.get_gmail())
 
@@ -52,32 +52,27 @@ class AccountServiceImpl(AccountService):
 
     def validate_password(self, password: str):
         if len(password) != 4:
-            print()
+            self.new_line()
             raise ValueError("Password length must be 4")
 
     def validate_email_address(self, email_address: str):
         if not (email_address.endswith("@gmail.com") or email_address.endswith("@yahoo.com")
                 or email_address.endswith("@email.com")):
-            print()
+            self.new_line()
             raise InvalidEmail("Invalid email address")
 
-        # pattern = r'^[a-zA-Z]+[a-zA-Z0-9]*'
-        # if not re.match(pattern, email_address):
-        #     print()
-        #     raise InvalidEmail("Incorrect Email Address")
-
-    def validate_phone_number(self, phone_number: str):
+    def validate_phone_number(self, phone_number: str): # 22222222222222222
         if len(phone_number) != 11:
-            print()
+            self.new_line()
             raise InvalidPhoneNumber("Length 11 is required for phone number")
 
         pattern = r'^0\d{10}$'
         if not re.match(pattern, phone_number):
-            print()
+            self.new_line()
             raise InvalidPhoneNumber("Invalid Phone Number")
 
         if self.phone_number_exist(phone_number):
-            print()
+            self.new_line()
             raise PhoneNumberExist(phone_number + " " + "already exist")
 
     def phone_number_exist(self, phone_nuber):
@@ -90,9 +85,12 @@ class AccountServiceImpl(AccountService):
         account = self.account_repository.find_by_account_number(login_request.get_account_number())
         if account:
             login_request.set_full_name(account.get_first_name() + " " + account.get_last_name())
+            login_request.set_account_id(account.get_id())
+
         if not account:
             self.new_line()
             raise AccountNotFound("Account not found")
+
         self.valid_login_password(login_request.get_password())
         login_response = Mapper.map(login_request)
         return login_response
@@ -192,7 +190,8 @@ class AccountServiceImpl(AccountService):
         withdraw_request = WithdrawRequest()
         withdraw_request.set_account_number(transfer_request.get_sender_account_number())
         withdraw_request.set_amount(transfer_request.get_amount())
-        withdraw_request.set_senders_account_name(senders_account.get_first_name() + " " + senders_account.get_last_name())
+        withdraw_request.set_senders_account_name(
+            receivers_account.get_first_name() + " " + receivers_account.get_last_name())
         self.withdraw_from(withdraw_request)
 
         deposit_request = DepositRequest()
@@ -212,6 +211,4 @@ class AccountServiceImpl(AccountService):
 
         if customer_account_balance < amount:
             print(account.get_account_number())
-            print("Senders account balance -> ", customer_account_balance)
-            print(amount)
             raise AmountCannotBeGreaterThanBalance("Amount can not be greater than balance")

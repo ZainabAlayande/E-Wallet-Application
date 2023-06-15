@@ -2,7 +2,7 @@ from dtos.request.complain_request import ComplainRequest
 from services.complain_service import ComplainService
 from services.complain_service_impl import ComplainServiceImpl
 from utils.account_not_found_exception import AccountNotFound
-from utils.invalid_id import InvalidId
+from utils.invalid_id import InvalidIdentityNumber
 
 complain_service = ComplainServiceImpl()
 
@@ -20,5 +20,5 @@ class ComplainController:
     def check_complaint_status(identity_number: int) -> object:
         try:
             return complain_service.check_complain_status(identity_number)
-        except InvalidId as exception:
+        except InvalidIdentityNumber as exception:
             return str(exception.__str__())

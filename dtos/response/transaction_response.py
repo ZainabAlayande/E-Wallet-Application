@@ -33,9 +33,6 @@ class TransactionResponse:
     def set_date_time(self, date_time: datetime):
         self.__transaction_date_time = date_time
 
-    # def get_date_time(self) -> Type[datetime]:
-    #     return self.__transaction_date_time
-
     def __str__(self):
         return f"""Transaction Type: {self.__transaction_type.name}
 Amount: {self.__amount}
