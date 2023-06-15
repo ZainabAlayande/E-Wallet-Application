@@ -32,7 +32,7 @@ class Transaction:
     def get_amount(self) -> float:
         return self.__amount
 
-    def set_transfer_type(self, transaction_type: TransactionType):
+    def set_transaction_type(self, transaction_type: TransactionType):
         self.__transaction_type = transaction_type
 
     def get_transaction_type(self) -> TransactionType:
@@ -50,7 +50,8 @@ class Transaction:
     def __str__(self):
         return f"""   
             Id: {self.__id}
+            Account Id: {self.__account_id}
             Amount: {self.__amount}
-            Transaction Type: {self.__transaction_type}
+            Transaction Type: {self.__transaction_type.name}
             Account Name: {self.__account_name}
             Date and Time: {self.__transaction_date_time}"""

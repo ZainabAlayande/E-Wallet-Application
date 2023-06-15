@@ -2,7 +2,9 @@ import decimal
 import re
 
 from data.model.account import Account
+from data.model.transaction_type import TransactionType
 from data.repository.transaction_repository_impl import TransactionRepositoryImpl
+from dtos.request.build_transaction_request import BuildTransactionRequest
 from services.transaction_service_impl import TransactionServiceImpl
 from utils.invalid_email import InvalidEmail
 from utils.invalid_phone_number import InvalidPhoneNumber
@@ -101,18 +103,27 @@ class AccountServiceImpl(AccountService):
     def deposit_into(self, deposit_request: DepositRequest) -> str:
         transaction_service = TransactionServiceImpl()
 
-        account = self.account_repository.find_by_account_number(deposit_request
-                                                                 .get_receivers_account_number())
-        account_id = account.get_id()
+        receivers_account = self.account_repository.find_by_account_number(deposit_request
+                                                                           .get_receivers_account_number())
 
-        if account:
-            deposit_request.set_receivers_account_name(account.get_first_name() + " " + account.get_last_name())
-        if not account:
+        receivers_account_id = receivers_account.get_id()
+        if receivers_account:
+            deposit_request.set_receivers_account_name(
+                receivers_account.get_first_name() + " " + receivers_account.get_last_name())
+        if not receivers_account:
             raise AccountNotFound("Account not found.")
+
         self.validate_negative_amount(deposit_request.get_amount())
-        account.deposit(deposit_request.get_amount())
-        transaction_service.build_customer_transaction(deposit_request, account_id)
-        self.account_repository.add(account)
+        receivers_account.deposit(deposit_request.get_amount())
+
+        build_transaction_request = BuildTransactionRequest()
+        build_transaction_request.set_account_id(receivers_account_id)
+        build_transaction_request.set_amount(deposit_request.get_amount())
+        build_transaction_request.set_account_name(deposit_request.get_receivers_account_name())
+        build_transaction_request.set_transaction_type(TransactionType.CREDIT)
+        transaction_service.build_customer_transaction(build_transaction_request)
+
+        self.account_repository.add(receivers_account)
         self.new_line()
         return self.success_message()
 
@@ -120,14 +131,25 @@ class AccountServiceImpl(AccountService):
         return "Sent Successfully"
 
     def withdraw_from(self, withdraw_request: WithdrawRequest) -> WithdrawResponse:
+        transaction_service = TransactionServiceImpl()
         account = self.account_repository.find_by_account_number(withdraw_request
                                                                  .get_account_number())
+        account_id = account.get_id()
         if not account:
             raise AccountNotFound("Account not found..")
         self.validate_negative_amount(withdraw_request.get_amount())
         self.validate_send_more_than_balance(withdraw_request.get_account_number(),
                                              withdraw_request.get_amount())
         account.withdraw(withdraw_request.get_amount())
+
+        build_transaction_request = BuildTransactionRequest()
+        build_transaction_request.set_account_number(withdraw_request.get_receivers_account_name())
+        build_transaction_request.set_account_name(withdraw_request.get_senders_account_name())
+        build_transaction_request.set_amount(withdraw_request.get_amount())
+        build_transaction_request.set_account_id(account_id)
+        build_transaction_request.set_transaction_type(TransactionType.DEBIT)
+        transaction_service.build_customer_transaction(build_transaction_request)
+
         self.account_repository.add(account)
         withdraw_response = WithdrawResponse()
         return withdraw_response
@@ -153,6 +175,9 @@ class AccountServiceImpl(AccountService):
         receivers_account = self.account_repository.find_by_account_number \
             (transfer_request.get_receiver_account_number())
 
+        senders_account = self.account_repository.find_by_account_number \
+            (transfer_request.get_sender_account_number())
+
         if not receivers_account:
             raise AccountNotFound("Account Not Found")
 
@@ -167,6 +192,7 @@ class AccountServiceImpl(AccountService):
         withdraw_request = WithdrawRequest()
         withdraw_request.set_account_number(transfer_request.get_sender_account_number())
         withdraw_request.set_amount(transfer_request.get_amount())
+        withdraw_request.set_senders_account_name(senders_account.get_first_name() + " " + senders_account.get_last_name())
         self.withdraw_from(withdraw_request)
 
         deposit_request = DepositRequest()
@@ -183,7 +209,6 @@ class AccountServiceImpl(AccountService):
     def validate_send_more_than_balance(self, account_to_find: str, amount: decimal):
         account = self.account_repository.find_by_account_number(account_to_find)
         customer_account_balance = account.get_balance()
-        print("hiiiiiiiiiiiii")
 
         if customer_account_balance < amount:
             print(account.get_account_number())

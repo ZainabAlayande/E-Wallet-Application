@@ -20,6 +20,13 @@ class Account:
         self.__gmail: str = ""
         self.__transaction: list[Transaction] = []
 
+    def __str__(self):
+        return f"""
+        Id: {self.__id}
+        Full Name: {self.__first_name + " " + self.__last_name}
+        Account Number: {self.__account_number}
+        """
+
     def get_first_name(self) -> str:
         return self.__first_name
 

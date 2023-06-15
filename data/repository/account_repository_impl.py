@@ -19,6 +19,10 @@ class AccountRepositoryImpl(AccountRepository):
         if account.get_account_number() == "":
             account_number = self.generate_account_number(account.get_phone_number())
             account.set_account_number(account_number)
+
+            if account.get_id() == 0:
+                account_id = self.generate_account_id()
+                account.set_id(account_id)
             self.__accounts.append(account)
 
         self.__counter += 1
@@ -50,3 +54,6 @@ class AccountRepositoryImpl(AccountRepository):
             if account.get_password() == password:
                 return account
         return None
+
+    def generate_account_id(self):
+        return self.__counter + 1

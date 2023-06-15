@@ -13,9 +13,6 @@ class TransactionRepositoryImpl(TransactionRepository):
         if transaction.get_id() == 0:
             transaction.set_id(self.generate_transaction_id())
 
-        if transaction.get_transaction_type() == TransactionType.DEBIT:
-            transaction.set_transfer_type(TransactionType.CREDIT)
-
         self.__transactions.append(transaction)
         self.__counter += 1
         return transaction
@@ -27,10 +24,16 @@ class TransactionRepositoryImpl(TransactionRepository):
         return self.__counter
 
     def find_transaction_by_id(self, identity_number: int):
-        transaction_list: list[Transaction] = []
         for transaction in self.__transactions:
             if transaction.get_id() == identity_number:
                 return transaction
+
+    def find_transaction_by_account_id(self, account_id: int) -> list[Transaction]:
+        transaction_with_account_id_above: list[Transaction] = []
+        for transaction in self.__transactions:
+            if transaction.get_account_id() == account_id:
+                transaction_with_account_id_above.append(transaction)
+        return transaction_with_account_id_above
 
     def delete_transaction_by_id(self, identity_number: int):
         for transaction in self.__transactions:

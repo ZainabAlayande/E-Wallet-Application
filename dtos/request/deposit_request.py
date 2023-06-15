@@ -13,7 +13,7 @@ class DepositRequest:
         # self.__account_name: str = ""
         self.__amount: decimal = 0.00
         self.__purpose: str = ""
-        self.__transaction_type: TransactionType = TransactionType.DEBIT
+        self.__transaction_type: TransactionType = TransactionType.CREDIT
 
     def set_receivers_account_name(self, account_name: str):
         self.__receivers_account_name = account_name
